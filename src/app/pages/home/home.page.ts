@@ -13,9 +13,7 @@ export class HomePage {
   constructor(
     private dataService: DataService
   ) {
-
     this.nombreUsuario = this.dataService.getNombreUsuario();
-
   }
 
 }
