@@ -1,5 +1,11 @@
+ion-card {
+    background-color:transparent !important;
+    box-shadow: none !important;
+}
+
 ion-content {
     --ion-background-color: #E1EAF9 !important;
+
 }
 
 ion-header {
@@ -8,7 +14,21 @@ ion-header {
 
 ion-toolbar{
     --background: transparent;
-    opacity: 8;
+    opacity: 0;
+}
+
+ion-card-header {
+    text-align: center;
+    margin-top: 70px;
+}
+
+ion-card-header ion-card-title {
+    font-size: 24px;
+    font-weight: 900;
+}
+
+ion-card-content {
+    margin-top: 50px;
 }
 
 .container-btns {
@@ -21,12 +41,25 @@ ion-toolbar{
     --ion-color-primary: #215AB7;
 }
 
-.text-tag {
-    margin-top: 35px;
+.text-social {
+    margin-top: 40px;
     text-align: center;
-    span {
-        font-size: 13px;
-        font-weight: normal;
-        color: #898585;
-    }
+}
+.text-social p {
+    font-size: 16px;
+}
+
+.container-social {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.container-social ion-icon{
+    font-size: 40px;
+}
+
+.help-text {
+    text-align: center;
+    margin-top: 10px;
 }
