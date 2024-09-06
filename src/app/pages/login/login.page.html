@@ -5,6 +5,7 @@
   <ion-buttons slot="start">
     <ion-back-button defaultHref="welcome" text=""></ion-back-button>
   </ion-buttons>
+  <p style="text-align: center; color: aliceblue; font-size: 20px; font-weight: 900;">RegistrApp</p>
 </ion-header>
 
 <ion-content>
@@ -14,12 +15,12 @@
       <div class="container-form">
         <ion-item>
           <ion-icon slot="start" name="person-outline"></ion-icon>
-          <ion-input type="text" name="user" placeholder="Usuario" required></ion-input>
+          <ion-input type="text" name="user" placeholder="Usuario" [(ngModel)]="userName" required></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-          <ion-input type="password" name="password" placeholder="Contraseña" required ></ion-input>
+          <ion-input type="password" name="password" placeholder="Contraseña"[(ngModel)]="passwordUser" required ></ion-input>
         </ion-item>
       </div>
       <div class="passwordforgot">
@@ -28,7 +29,7 @@
         </ion-button>
       </div>
       <div class="login-btn-container">
-        <ion-button fill="solid" shape="round" class="login-btn">Iniciar Sesión</ion-button>
+        <ion-button fill="solid" shape="round" class="login-btn" (click)="login()" >Iniciar Sesión</ion-button>
       </div>
     </ion-card-content>
   </ion-card>

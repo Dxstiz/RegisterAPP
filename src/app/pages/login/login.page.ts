@@ -27,26 +27,42 @@ export class LoginPage implements OnInit {
 
   }
 
-  // FUNCION PARA INICIAR SESION
-  // ASYNC SE USA PARA INTEGRAR AWAIT DENTRO DE LA FUNCION DE ESTA MANERA AL APARECER LA ALERTA SE ESPERA A QUE EL USUARIO LA CIERRE PARA CONTINUAR
-  async login() {
-
-    // SE VERIFICA QUE LOS CAMPOS DE USUARIO Y CONTRASEÑA NO ESTEN VACIOS PARA QUE EL USUARIO PUEDA INICIAR SESION
-    if (this.userName.length > 0 && this.passwordUser.length > 0) {
-      // SE REDIRECCIONA AL USUARIO A LA PAGINA DE HOME
-      this.router.navigate(['/home']);
-      this.dataService.setNombreUsuario(this.userName);
-    } else {
-      // SI LOS CAMPOS ESTAN VACIOS SE MUESTRA UNA ALERTA CON UN MENSAJE DE INGRESE USUARIO Y CONTRASEÑA
-      const alert = await this.alertController.create({
-        header: 'Acceso denegado',
-        message: 'Ingrese usuario y contraseña',
-        buttons: ['OK']
-      });
-      // AWAIT PARA ESPERAR A QUE EL USUARIO CIERRE LA ALERTA
-      await alert.present();
-    }
+// FUNCION PARA INICIAR SESION
+async login() {
+  // Verifica si ambos campos están vacíos
+  if (this.userName.length === 0 && this.passwordUser.length === 0) {
+    const alert = await this.alertController.create({
+      header: 'Acceso denegado',
+      message: 'Debe ingresar usuario y contraseña',
+      buttons: ['OK']
+    });
+    await alert.present();
+  } 
+  // Verifica si solo el campo de usuario está vacío
+  else if (this.userName.length === 0) {
+    const alert = await this.alertController.create({
+      header: 'Acceso denegado',
+      message: 'Debe ingresar el usuario',
+      buttons: ['OK']
+    });
+    await alert.present();
+  } 
+  // Verifica si solo el campo de contraseña está vacío
+  else if (this.passwordUser.length === 0) {
+    const alert = await this.alertController.create({
+      header: 'Acceso denegado',
+      message: 'Debe ingresar la contraseña',
+      buttons: ['OK']
+    });
+    await alert.present();
+  } 
+  // Si ambos campos están llenos, redirige a la página de inicio
+  else {
+    this.router.navigate(['/home']);
+    this.dataService.setNombreUsuario(this.userName);
   }
+}
+
 
   ngOnInit() {
   }
