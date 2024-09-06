@@ -13,6 +13,7 @@ export class LoginPage implements OnInit {
   // DECLARACION DE VARIABLES
   userName: string;
   passwordUser: string;
+  isPasswordShow: boolean;
   
   constructor(
     // INYECCION DE DEPENDENCIAS
@@ -24,7 +25,7 @@ export class LoginPage implements OnInit {
     // INICIALIZACION DE VARIABLES
     this.userName = '';
     this.passwordUser = '';
-
+    this.isPasswordShow = false;
   }
 
 // FUNCION PARA INICIAR SESION
@@ -63,8 +64,15 @@ async login() {
   }
 }
 
+  showPassword(){
+    this.isPasswordShow = !this.isPasswordShow;
+  }
+
 
   ngOnInit() {
   }
 
+  goForgot() {
+    this.router.navigate(['/forgot-pass']);
+  }
 }

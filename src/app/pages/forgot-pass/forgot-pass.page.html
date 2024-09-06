@@ -1,13 +1,24 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-margin">
   <ion-toolbar>
-    <ion-title>forgotPass</ion-title>
+    <!-- <ion-title>Header</ion-title> -->
   </ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="login" text=""></ion-back-button>
+  </ion-buttons>
+  <p style="text-align: center; font-weight: 900; color: #647B9D;">¿Olvidaste tu Contraseña?</p>
 </ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">forgotPass</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card class="ion-no-margin">
+    <ion-card-content>
+      <div class="container-form">
+        <ion-item>
+          <ion-icon slot="start" name="person-outline"></ion-icon>
+          <ion-input type="text" name="user" placeholder="Usuario" required></ion-input>
+        </ion-item>
+      </div>
+      <div class="recovery-btn-container">
+        <ion-button fill="solid" shape="round" class="recovery-btn" (click)="goLogin()">Recuperar contraseña</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
