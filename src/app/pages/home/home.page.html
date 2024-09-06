@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" style="background-color: #E1EAF9;">
   <ion-toolbar>
     <ion-label>
       <h2>RegistrApp</h2>
@@ -12,5 +12,30 @@
 </ion-header>
 
 <ion-content>
-  
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Codigo QR</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Generar Codigo QR para registro de asistencia</p>
+            <ion-button expand="block" fill="outline" routerLink="/registro">Generar QR</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Lista Alumnos</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p>Ver listado de alumnos registrados</p>
+            <ion-button expand="block" fill="outline" routerLink="/consulta">Ver listado</ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
