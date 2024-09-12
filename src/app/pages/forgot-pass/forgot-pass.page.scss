@@ -1,9 +1,24 @@
 ion-header {
-    
+  position: absolute;
+}
+
+ion-toolbar {
+  --background: transparent;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 20px;
+  margin-top: 30px;
 }
   ion-card {
     background-color:transparent !important;
     box-shadow: none !important;
+  }
+
+  ion-img {
+    justify-content: center;
+    align-items: center;
   }
   
   ion-toolbar {
