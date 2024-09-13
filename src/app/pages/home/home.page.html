@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border" style="background-color: #E1EAF9;">
+<ion-header class="ion-no-border m-top: [10px]" style="background-color: #E1EAF9;">
   <ion-toolbar>
     <ion-label>
       <h2>RegistrApp</h2>
@@ -16,14 +16,16 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngFor="let card of cards">
-        <ion-card class="card-button" (click)="goTo(card.route)">
+        <ion-card class="card-button rounded-sm p-5 " (click)="goTo(card.route)">
           <ion-card-content>
-            <div class="card-icon">
+            <div class="card-icon rounded-xl">
               <ion-icon slot="start" [name]="card.icon"></ion-icon>
             </div>
             <div class="card-title">{{ card.title }}</div>
           </ion-card-content>
         </ion-card>
+
+
       </ion-col>
     </ion-row>
   </ion-grid>
