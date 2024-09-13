@@ -3,22 +3,27 @@
     <!-- <ion-title>Login</ion-title> -->
   </ion-toolbar>
   <ion-buttons slot="start">
-    <ion-back-button defaultHref="welcome" style="color: #215AB7;"></ion-back-button>
+    <ion-back-button defaultHref="login" style="color: #215AB7;"></ion-back-button>
   </ion-buttons>
 </ion-header>
 
 <ion-content>
-  <ion-card class="ion-no-margin">
-    <ion-img src="assets/images/forgot.png" style="width: 120px;"></ion-img>
+  <ion-card class="ion-no-margin ion-padding">
+    <ion-card-header class="header-center">
+      <ion-img src="assets/images/forgot.png" style="width: 160px;"></ion-img>
+      <ion-card-title class="title-center">¿Olvidaste tu contraseña?</ion-card-title>
+    </ion-card-header>
+    
     <ion-card-content>
       <div class="container-form">
         <ion-item>
           <ion-icon slot="start" name="person-outline"></ion-icon>
-          <ion-input type="text" name="user" placeholder="Usuario" required></ion-input>
+          <ion-input type="text" name="user" placeholder="Ingresa tu usuario o correo" required></ion-input>
         </ion-item>
       </div>
+
       <div class="recovery-btn-container">
-        <ion-button fill="solid" shape="round" class="recovery-btn" (click)="goLogin()">Recuperar contraseña</ion-button>
+        <ion-button fill="solid" shape="round" class="recovery-btn" color="primary" (click)="goLogin()">Recuperar contraseña</ion-button>
       </div>
     </ion-card-content>
   </ion-card>

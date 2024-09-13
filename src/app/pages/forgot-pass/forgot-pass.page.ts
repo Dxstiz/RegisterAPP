@@ -16,6 +16,4 @@ export class ForgotPassPage implements OnInit {
   goLogin() {
     this.router.navigate(['/login']);
   }
-
-  
 }

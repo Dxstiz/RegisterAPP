@@ -1,17 +1,12 @@
 [
     {
-        "image": "assets/images/card1.png",
+        "icon": "qr-code-outline",
         "title": "Generar QR",
         "description": "Generar QR para la asistencia"
     },
     {
-        "image": "assets/images/card2.png",
+        "icon": "list-outline",
         "title": "Lista de alumnos",
-        "description": "Ver lista de alumnos inscritos"
-    },
-    {
-        "image": "assets/images/card3.png",
-        "title": "Título de la Carta 3",
-        "description": "Descripción breve de la carta 3."
+        "description": "Ver listado de alumnos"
     }
 ]
