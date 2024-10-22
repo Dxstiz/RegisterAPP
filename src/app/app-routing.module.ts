@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { canActivate } from './canactivate.guard';
+import { CanmatchGuard } from './canmatch.guard';
+import { CanDeactivateGuard } from './candeactivate.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +16,10 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
+    canActivate: [canActivate],
+    canMatch: [CanmatchGuard],
+    canDeactivate: [CanDeactivateGuard]
   },
   {
     path: 'login',
@@ -22,6 +28,10 @@ const routes: Routes = [
   {
     path: 'forgot-pass',
     loadChildren: () => import('./pages/forgot-pass/forgot-pass.module').then( m => m.ForgotPassPageModule)
+  },
+  {
+    path: 'not-found',
+    loadChildren: () => import('./pages/not-found/not-found.module').then( m => m.NotFoundPageModule)
   },
 ];
 
