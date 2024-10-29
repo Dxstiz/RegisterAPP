@@ -4,6 +4,9 @@
 *~
 *.sw[mnpcod]
 .tmp
+.env
+*.env
+*.env.*
 *.tmp
 *.tmp.*
 UserInterfaceState.xcuserstate
