@@ -6,13 +6,13 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 
-// Firebase
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth'; // Para autenticación
-import { provideFirestore, getFirestore } from '@angular/fire/firestore'; // Firestore
-import { provideAnalytics, getAnalytics, ScreenTrackingService } from '@angular/fire/analytics'; // Analytics opcional
-import { environment } from '../environments/environment';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,14 +22,11 @@ import { environment } from '../environments/environment';
     FormsModule, 
     HttpClientModule,
     ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // Inicialización de Firebase
-    provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
-    provideAuth(() => getAuth()), // Servicio de autenticación
-    provideFirestore(() => getFirestore()), // Firestore
-    provideAnalytics(() => getAnalytics()), // Analytics (opcional)
-    
-  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
+
+    provideFirebaseApp(() => initializeApp({"projectId":"registerapp-82165","appId":"1:601342409122:web:c4ea93123dee0d42d25afb","storageBucket":"registerapp-82165.appspot.com","apiKey":"AIzaSyAIgjinoNa0ZPUpWkNBtqA0wXUulGykPRw","authDomain":"registerapp-82165.firebaseapp.com","messagingSenderId":"601342409122","measurementId":"G-P46KTFDR10"})), 
+    provideAuth(() => getAuth()), provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, 
+    provideFirestore(() => getFirestore()), provideStorage(() => getStorage()),],
   bootstrap: [AppComponent],
   
 })

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { DataService } from '../../data.service';
-import { AuthService } from '../../auth.service';
-import { CanComponentDeactivate } from 'src/app/candeactivate.guard';
+
 
 @Component({
   selector: 'app-home',
@@ -23,7 +22,7 @@ export class HomePage implements OnInit {
     private dataService: DataService,
     private http: HttpClient,
     private router: Router,
-    private authService: AuthService
+
   ) { }
 
   ngOnInit() {
@@ -41,10 +40,5 @@ export class HomePage implements OnInit {
     this.router.navigate([route]);
   }
 
-  logout() {
-    if (this.canDeactivate()) {
-      this.authService.logout();
-      this.router.navigate(['/login']);
-    }
-  }
+
 }
