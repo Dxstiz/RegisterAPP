@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { DataService } from '../../data.service';
-
+import { AuthService } from '../../common/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +15,16 @@ export class LoginPage implements OnInit {
   userName: string;
   passwordUser: string;
   isPasswordShow: boolean;
+
+  email: string;
+  password: string;
   
   constructor(
     // INYECCION DE DEPENDENCIAS
     private router: Router, 
     private alertController: AlertController,
     private dataService: DataService,
-
+    private authService: AuthService
   ) { 
 
     // INICIALIZACION DE VARIABLES
@@ -31,41 +34,13 @@ export class LoginPage implements OnInit {
   }
 
 
-// FUNCION PARA INICIAR SESION
-async login() {
-  // Verifica si ambos campos están vacíos
-  if (this.userName.length === 0 && this.passwordUser.length === 0) {
-    const alert = await this.alertController.create({
-      header: 'Acceso denegado',
-      message: 'Debe ingresar usuario y contraseña',
-      buttons: ['OK']
-    });
-    await alert.present();
-  } 
-  // Verifica si solo el campo de usuario está vacío
-  else if (this.userName.length === 0) {
-    const alert = await this.alertController.create({
-      header: 'Acceso denegado',
-      message: 'Debe ingresar el usuario',
-      buttons: ['OK']
-    });
-    await alert.present();
-  } 
-  // Verifica si solo el campo de contraseña está vacío
-  else if (this.passwordUser.length === 0) {
-    const alert = await this.alertController.create({
-      header: 'Acceso denegado',
-      message: 'Debe ingresar la contraseña',
-      buttons: ['OK']
-    });
-    await alert.present();
-  } 
-  // Si ambos campos están llenos, redirige a la página de inicio
-  else {
+  // FUNCIONES
+  login() {
+    this.authService.login(this.email, this.password)
+    .then((user) => console.log('Inicio de sesión exitoso', user))
+    .catch((error) => console.log('Error al iniciar sesión', error));
     this.router.navigate(['/home']);
-    this.dataService.setNombreUsuario(this.userName);
   }
-}
   
   
 

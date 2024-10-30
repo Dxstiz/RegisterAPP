@@ -1,5 +1,6 @@
 export interface UserI {
-    nombre: string;
-    edad: number;
+    correo: string;
+    userName: string;
+    rol: string;
     id: string;
 }

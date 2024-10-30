@@ -15,12 +15,12 @@
       <div class="container-form">
         <ion-item>
           <ion-icon slot="start" name="person-outline"></ion-icon>
-          <ion-input type="text" name="user" placeholder="Usuario" [(ngModel)]="userName" required></ion-input>
+          <ion-input type="text" name="user" placeholder="Usuario" [(ngModel)]="email" required></ion-input>
         </ion-item>
   
         <ion-item>
           <ion-icon slot="start" name="lock-closed-outline"></ion-icon>
-          <ion-input type="{{isPasswordShow ? 'text' : 'password' }}" name="password" placeholder="Contraseña"[(ngModel)]="passwordUser" required ></ion-input>
+          <ion-input type="{{isPasswordShow ? 'text' : 'password' }}" name="password" placeholder="Contraseña"[(ngModel)]="password" required ></ion-input>
           <ion-button (click)="showPassword()" expand="block" fill="clear" shape="round">
             <ion-icon name="{{ isPasswordShow ? 'eye-outline' : 'eye-off-outline' }}"></ion-icon>
           </ion-button>

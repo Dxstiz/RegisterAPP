@@ -5,43 +5,48 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">lab</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <ion-card>
-
     <ion-item>
-      <ion-label>Nombre: </ion-label>
-      <ion-input [(ngModel)]="newUser.nombre"></ion-input>
+      <ion-label>Correo:</ion-label>
+      <ion-input [(ngModel)]="newUser.correo" type="email"></ion-input>
     </ion-item>
 
     <ion-item>
-    <ion-label>Edad: </ion-label>
-      <ion-input [(ngModel)]="newUser.edad"></ion-input>
+      <ion-label>Contraseña:</ion-label>
+      <ion-input [(ngModel)]="password" type="password"></ion-input>
     </ion-item>
 
+    <ion-item>
+      <ion-label>Nombre de Usuario:</ion-label>
+      <ion-input [(ngModel)]="newUser.userName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Rol:</ion-label>
+      <ion-select [(ngModel)]="newUser.rol">
+        <ion-select-option value="alumno">Alumno</ion-select-option>
+        <ion-select-option value="profesor">Profesor</ion-select-option>
+      </ion-select>
+    </ion-item>
   </ion-card>
 
   <div style="margin: 20px;">
-    <ion-button (click)="save()" expand="block" shape="round">
-      Agregar
+    <ion-button (click)="save()" expand="block" shape="round" [disabled]="cargando">
+      Registrar Usuario
     </ion-button>
   </div>
 
-  @if (cargando){
-    <div style="text-align: center;">
-      <ion-spinner name="bubbles"></ion-spinner>
-    </div>
-  }
+  <div *ngIf="cargando" style="text-align: center;">
+    <ion-spinner name="bubbles"></ion-spinner>
+  </div>
+
 
   <ion-list>
     @for (user of users; track $index){
     <ion-item>
-      <ion-label>Nombre: {{ user.nombre }}
-        <p>Edad: {{ user.edad }}</p>
+      <ion-label>Nombre: {{ user.userName }}
+        <p>rol: {{ user.rol }}</p>
+        <p>correo: {{ user.correo }}</p>
       </ion-label>
       <ion-buttons slot="end">
         <ion-button (click)="edit(user)">
