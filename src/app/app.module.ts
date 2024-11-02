@@ -6,17 +6,28 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+
+// Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
+// Local Storage
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { Drivers, Storage } from '@ionic/storage';
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, 
+    IonicStorageModule.forRoot({
+      name: 'mybd',
+      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
+    }),
+    IonicStorageModule.forRoot(),
+    IonicModule.forRoot(),
     IonicModule.forRoot(), 
     AppRoutingModule, 
     FormsModule, 

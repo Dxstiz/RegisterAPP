@@ -16,7 +16,7 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngFor="let card of cards">
-        <ion-card class="card-button rounded-sm p-5 " (click)="goTo(card.route)">
+        <ion-card *ngIf="rolUser === 'profesor'"class="card-button rounded-sm p-5 " (click)="goTo(card.route)">
           <ion-card-content>
             <div class="card-icon rounded-xl">
               <ion-icon slot="start" [name]="card.icon"></ion-icon>
@@ -25,11 +25,17 @@
           </ion-card-content>
         </ion-card>
 
-        
+        <ion-card *ngIf="rolUser === 'alumno'" class="card-button rounded-sm p-5 " (click)="goTo(card.route)">
+          <ion-card-content>
+            <p>hola compare</p>
+          </ion-card-content>
+        </ion-card>
+
       </ion-col>
       
     </ion-row>
-    <ion-button>Logout</ion-button>
+    <ion-button (click)="logout()" >Logout</ion-button>
+    <ion-button (click)="datos()" >xd</ion-button>
   </ion-grid>
   
 </ion-content>

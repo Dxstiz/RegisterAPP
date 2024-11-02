@@ -23,6 +23,7 @@ export class LabPage implements OnInit {
   ) { 
     this.loadusers();
     this.initUser();
+    this.getUserName('YXtQ2aAlXfgTDq3ESVoCBSsnPwr2');
   }
   
   ngOnInit() {
@@ -71,4 +72,13 @@ export class LabPage implements OnInit {
     await this.firestoreService.deleteDocumentID('Usuarios', user.id);
     this.cargando = false;
   }
+
+  async getUserName(uid: string): Promise<string | null> {
+    const userData = await this.firestoreService.getDocument<UserI>(`Usuarios/${uid}`);
+    console.log('userData', userData?.userName);
+    return userData?.userName || null;
+  }
+
 }
+
+

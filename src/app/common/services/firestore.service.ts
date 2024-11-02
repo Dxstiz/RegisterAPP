@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { collectionData, Firestore } from '@angular/fire/firestore';
-import { collection, deleteDoc, doc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { DocumentReference } from 'firebase/firestore/lite';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -14,12 +15,23 @@ export class FirestoreService {
 
   constructor() { }
 
-  getCollectionChanges<tipo>(path: string) {
-    const itemCollection = collection(this.firestore, path);
+  async getDocument<tipo>(path: string): Promise<tipo | undefined> {
+    const documentRef = doc(this.firestore, path); // Asegúrate de usar 'doc' aquí
+    const documentSnapshot = await getDoc(documentRef);
+    if (documentSnapshot.exists()) {
+      return documentSnapshot.data() as tipo;
+    } else {
+      return undefined;
+    }
+  }
+
+  getDocumentChanges<tipo>(enlace: string) {
+    console.log('getDocumentChanges', enlace);
+    const itemCollection = collection(this.firestore, enlace);
     return collectionData(itemCollection) as Observable<tipo[]>;
   }
 
-  getDocumentChanges<tipo>(path: string) {
+  getCollectionChanges<tipo>(path: string) {
     const itemCollection = collection(this.firestore, path);
     return collectionData(itemCollection) as Observable<tipo[]>;
   }
@@ -47,5 +59,7 @@ export class FirestoreService {
   createIdDoc(){
     return uuidv4();
   }
+
+
 
 }
