@@ -5,6 +5,7 @@ import { AuthService } from '../../common/services/auth.service';
 import { DataService } from 'src/app/data.service';
 import { FirestoreService } from 'src/app/common/services/firestore.service';
 import { UserI } from 'src/app/common/models/users.models';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -38,7 +39,7 @@ export class HomePage implements OnInit {
     this.loadCards();
   }
 
-
+  
 
   datos() {
     console.log(this.nombreUsuario);
@@ -73,6 +74,11 @@ export class HomePage implements OnInit {
     return this.rolUser = userData?.rol || null;
   }
 
-
+  async isAdmin(){
+    if(this.rolUser == 'admin'){
+      this.authService.setAdmin(true);
+      this.router.navigate(['/lab']);
+    }
+  }
 
 }

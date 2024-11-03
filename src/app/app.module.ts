@@ -14,6 +14,7 @@ import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingServ
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 
+
 // Local Storage
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers, Storage } from '@ionic/storage';
@@ -22,16 +23,13 @@ import { Drivers, Storage } from '@ionic/storage';
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, 
-    IonicStorageModule.forRoot({
-      name: 'mybd',
-      driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage]
-    }),
     IonicStorageModule.forRoot(),
     IonicModule.forRoot(),
     IonicModule.forRoot(), 
     AppRoutingModule, 
     FormsModule, 
     HttpClientModule,
+    
     ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
 

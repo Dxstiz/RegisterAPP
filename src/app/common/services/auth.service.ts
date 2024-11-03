@@ -9,7 +9,8 @@ import { FirestoreService } from 'src/app/common/services/firestore.service';
   providedIn: 'root',
 })
 export class AuthService {
-
+  rol = false; // Variable para controlar el rol del usuario
+  isLogin = false; // Variable para controlar el estado de la autenticación
   private firestoreService: FirestoreService = inject(FirestoreService); // Inyección del servicio de Firestore
   private auth: Auth = inject(Auth); // Inyección del servicio de Auth
   user$: Observable<User | null>;    // Observable para el estado del usuario
@@ -17,6 +18,15 @@ export class AuthService {
   constructor() {
     this.user$ = authState(this.auth); // Monitorea el estado del usuario autenticado
     
+  }
+
+  setAdmin(status: boolean) {
+    this.rol = status;
+  }
+
+  // Método para cambiar el estado de la autenticación
+  setLogin(status: boolean) {
+    this.isLogin = status;
   }
 
   // Registro de usuario con email y contraseña y guardar en Firestore
@@ -33,11 +43,14 @@ export class AuthService {
 
   // Inicio de sesión con email y contraseña
   async login(email: string, password: string): Promise<UserCredential> {
+    this.isLogin = true;
     return signInWithEmailAndPassword(this.auth, email, password);
   }
 
   // Cierre de sesión
   async logout(): Promise<void> {
+    this.isLogin = false;
+    this.rol = false;
     return signOut(this.auth);
   }
 

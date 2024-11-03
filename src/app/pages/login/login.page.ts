@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
     this.authService.login(this.email, this.password)
       .then((userCredential: UserCredential) => {
         const uid = userCredential.user.uid;  // Obtén el uid del usuario autenticado
-        console.log('UID del usuario autenticado:', uid);  // Muestra el uid en la consola
+        console.log('UID del usuario autenticado:', uid);  // Muestra el uid en la consola para ver que funciona xD
         this.dataService.setUid(uid);  // Guarda el uid en el servicio de datos
         this.router.navigate(['/home']);
       })

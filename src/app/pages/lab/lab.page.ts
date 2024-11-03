@@ -4,7 +4,7 @@ import { FirestoreService } from 'src/app/common/services/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { user } from '@angular/fire/auth';
 import { AuthService } from 'src/app/common/services/auth.service';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.page.html',
@@ -19,7 +19,8 @@ export class LabPage implements OnInit {
 
   constructor(
     private firestoreService: FirestoreService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { 
     this.loadusers();
     this.initUser();
@@ -77,6 +78,10 @@ export class LabPage implements OnInit {
     const userData = await this.firestoreService.getDocument<UserI>(`Usuarios/${uid}`);
     console.log('userData', userData?.userName);
     return userData?.userName || null;
+  }
+
+  goBack(){
+    this.router.navigate(['/home']);
   }
 
 }
