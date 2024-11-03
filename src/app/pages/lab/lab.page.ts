@@ -47,6 +47,11 @@ export class LabPage implements OnInit {
     }
   }
 
+
+  async update(user: UserI) {
+    this.firestoreService.updateDocument('Usuarios', user.id, this.newUser);
+  }
+
   async save() {
     this.cargando = true;
 

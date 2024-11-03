@@ -50,6 +50,12 @@ export class FirestoreService {
     const document = doc(this.firestore, `${enlace}/${idDoc}`);
     return updateDoc(document, data);
   }
+  
+  async updateDocument(enlace: string, idDoc: string, data: any){
+    const document = doc(this.firestore, `${enlace}/${idDoc}`);
+    return updateDoc(document, data);
+  }
+
 
   deleteDocumentID(enlace: string, idDoc: string){
     const document = doc(this.firestore, `${enlace}/${idDoc}`);

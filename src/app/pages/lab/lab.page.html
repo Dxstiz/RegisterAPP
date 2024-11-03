@@ -35,6 +35,7 @@
     <ion-button (click)="save()" expand="block" shape="round" [disabled]="cargando">
       Registrar Usuario
     </ion-button>
+
   </div>
 
   <div *ngIf="cargando" style="text-align: center;">
@@ -50,6 +51,11 @@
         <p>correo: {{ user.correo }}</p>
       </ion-label>
       <ion-buttons slot="end">
+
+        <ion-button (click)="update(user)">
+          <ion-icon slot="icon-only" name="checkmark-outline"></ion-icon>
+        </ion-button>
+        
         <ion-button (click)="edit(user)">
           <ion-icon slot="icon-only" name="create"></ion-icon>
         </ion-button>
