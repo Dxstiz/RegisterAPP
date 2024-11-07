@@ -6,7 +6,7 @@
     </ion-label>
     <ion-avatar slot="end" (click)="presentPopover($event)">
       <img alt="User Avatar" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-    </ion-avatar>    
+    </ion-avatar>
   </ion-toolbar>
   <ion-searchbar color="secondary" placeholder="Buscar"></ion-searchbar>
 </ion-header>
@@ -14,7 +14,7 @@
 <ion-popover trigger="avatar" trigger-action="click" dismiss-on-select="true">
   <ion-content>
     <ion-list>
-      <ion-item button (click)="logout()">Logout</ion-item>
+      <ion-item button (click)="logout()">Cerrar Sesión</ion-item>
     </ion-list>
   </ion-content>
 </ion-popover>
@@ -23,10 +23,11 @@
   <ion-grid>
     <ion-row>
       <ion-col *ngFor="let card of cards">
-        <ion-card 
-          *ngIf="rolUser !== 'alumno' || card.title === 'Gestion Master'" 
-          class="card-button rounded-sm p-5" 
-          (click)="card.title === 'Gestion Master' ? isAdmin() : goTo(card.route)">
+
+        <!-- Mostrar solo si el usuario no es 'alumno' o si no es la card 'Gestion Master' -->
+        <ion-card
+          *ngIf="rolUser !== 'alumno' && card.title !== 'Gestion Master' || rolUser !== 'alumno' && card.title === 'Gestion Master'"
+          class="card-button rounded-sm p-5" (click)="card.title === 'Gestion Master' ? isAdmin() : goTo(card.route)">
           <ion-card-content>
             <div class="card-icon rounded-xl">
               <ion-icon slot="start" [name]="card.icon"></ion-icon>
@@ -35,14 +36,13 @@
           </ion-card-content>
         </ion-card>
 
-        <ion-card 
-          *ngIf="rolUser === 'alumno'" 
-          class="card-button rounded-sm p-5" 
-          (click)="goTo(card.route)">
+        <!-- Card para rol 'alumno' -->
+        <ion-card *ngIf="rolUser === 'alumno'" class="card-button rounded-sm p-5" (click)="goTo(card.route)">
           <ion-card-content>
-            <p>hola compare</p>
+            <p>Vista de alumno</p>
           </ion-card-content>
         </ion-card>
+
       </ion-col>
     </ion-row>
   </ion-grid>

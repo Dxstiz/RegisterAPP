@@ -7,7 +7,7 @@
     },
     {
         "icon": "document-outline",
-        "title": "Gestión Master",
+        "title": "Gestion Master",
         "description": "Gestion de Usuarios",
         "route": "/lab"
     }
