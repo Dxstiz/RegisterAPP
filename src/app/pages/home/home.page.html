@@ -26,7 +26,7 @@
 
         <!-- Mostrar solo si el usuario no es 'alumno' o si no es la card 'Gestion Master' -->
         <ion-card
-          *ngIf="rolUser !== 'alumno' && card.title !== 'Gestion Master' || rolUser !== 'alumno' && card.title === 'Gestion Master'"
+          *ngIf="rolUser !== 'alumno'"
           class="card-button rounded-sm p-5" (click)="card.title === 'Gestion Master' ? isAdmin() : goTo(card.route)">
           <ion-card-content>
             <div class="card-icon rounded-xl">
