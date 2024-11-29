@@ -42,8 +42,14 @@
             <p>Vista de alumno</p>
           </ion-card-content>
         </ion-card>
-
+      
       </ion-col>
     </ion-row>
+    <ion-card *ngIf="rolUser !== 'alumno'" (click)="goClass()"> Clases </ion-card>
   </ion-grid>
+  
+  <ion-button expand="full" (click)="tomarFoto()">Tomar Foto</ion-button>
+  <div *ngIf="image">
+  <img [src]="image" />
+  </div>
 </ion-content>

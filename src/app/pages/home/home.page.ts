@@ -8,6 +8,7 @@ import { FirestoreService } from 'src/app/common/services/firestore.service';
 import { UserI } from 'src/app/common/models/users.models';
 import { PopoverController } from '@ionic/angular'; // Importa PopoverController
 import { PopoverContentComponent  } from 'src/app/components/popover-content/popover-content.component'; // Importa el nuevo componente
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ export class HomePage implements OnInit {
   nombreUsuario: string = '';
   cards: any[] = [];
   rolUser: string = '';
+  image: string | undefined;
 
   constructor(
     private http: HttpClient,
@@ -78,4 +80,19 @@ export class HomePage implements OnInit {
       this.router.navigate(['/lab']);
     }
   }
+
+  goClass() {
+    this.router.navigate(['/clas-profe']);
+  }
+
+  async tomarFoto() {
+    const image = await Camera.getPhoto({
+    quality: 90,
+    allowEditing: false,
+    resultType: CameraResultType.DataUrl,
+    source: CameraSource.Camera
+    });
+    this.image = image.dataUrl;
+    }
+
 }

@@ -32,6 +32,10 @@ const routes: Routes = [
     path: 'lab',
     loadChildren: () => import('./pages/lab/lab.module').then( m => m.LabPageModule),
     canActivate: [addminGuard]
+  },
+  {
+    path: 'clas-profe',
+    loadChildren: () => import('./pages/clas-profe/clas-profe.module').then( m => m.ClasProfePageModule)
   }
 ];
 
