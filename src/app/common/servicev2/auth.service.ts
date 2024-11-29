@@ -3,7 +3,7 @@ import { Auth, User, signInWithEmailAndPassword, createUserWithEmailAndPassword,
 import { authState } from 'rxfire/auth';
 import { Observable } from 'rxjs';
 import { UserI } from '../models/users.models';
-import { FirestoreService } from 'src/app/common/services/firestore.service';
+import { FirestoreService } from 'src/app/common/servicev2/firestore.service';
 
 @Injectable({
   providedIn: 'root',

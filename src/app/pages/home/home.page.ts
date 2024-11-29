@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../../common/services/auth.service'; 
 import { IonicModule } from '@ionic/angular';
-import { DataService } from 'src/app/data.service';
-import { FirestoreService } from 'src/app/common/services/firestore.service';
-import { UserI } from 'src/app/common/models/users.models';
 import { PopoverController } from '@ionic/angular'; // Importa PopoverController
 import { PopoverContentComponent  } from 'src/app/components/popover-content/popover-content.component'; // Importa el nuevo componente
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { AuthService } from 'src/app/common/service/auth.service';
+import { ClassService } from 'src/app/common/service/classes.service';
+
 
 @Component({
   selector: 'app-home',
@@ -17,24 +16,26 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 })
 export class HomePage implements OnInit {
 
-  nombreUsuario: string = '';
+  public user: any;
+  public classes: any[] = [];
+  qrCodeUrl: string | undefined;
+  selectedClass: any;
+  isModalOpen = false;
   cards: any[] = [];
-  rolUser: string = '';
   image: string | undefined;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private authService: AuthService,
-    private dataService: DataService,
-    private firestoreService: FirestoreService,
-    private popoverController: PopoverController // Inyecta PopoverController
+    private popoverController: PopoverController,
+    private classService: ClassService,
   ) {
-    this.userName();
-    this.userRol();
+
   }
 
   ngOnInit() {
+    this.getUserData();
     this.loadCards();
   }
 
@@ -48,9 +49,10 @@ export class HomePage implements OnInit {
     this.router.navigate([route]);
   }
 
-  async logout() {
-    await this.authService.logout();
-    this.router.navigate(['/login']);
+  getUserData(): void {
+    const userData = this.authService.getUserData();
+    this.user = userData;
+    console.log(this.user);
   }
 
   async presentPopover(ev: Event) {
@@ -62,23 +64,37 @@ export class HomePage implements OnInit {
     await popover.present();
   }
 
-  async userName() {
-    const uid = this.dataService.getUid();
-    const userData = await this.firestoreService.getDocument<UserI>(`Usuarios/${uid}`);
-    return (this.nombreUsuario = userData?.userName || '');
+  getClasses(): void {
+    this.classService.getClasses('classes').subscribe((data) => {
+      const classes = data.classes;
+      console.log(classes);
+      const filteredClasses = classes.filter(
+        (c: any) => c.teacher_id === this.user.id
+      );
+      this.classes = filteredClasses;
+    });
   }
 
-  async userRol() {
-    const uid = this.dataService.getUid();
-    const userData = await this.firestoreService.getDocument<UserI>(`Usuarios/${uid}`);
-    return (this.rolUser = userData?.rol || '');
+  generateQR(classId: string): void {
+    const data = {
+      class_id: classId,
+    };
+    this.classService.generateQRCode(data).subscribe((response) => {
+      this.qrCodeUrl = response.url; // Obtén la URL del QR desde la respuesta
+      console.log(this.qrCodeUrl);
+      this.selectedClass = this.classes.find((cls: any) => cls.id === classId); // Guarda la clase seleccionada
+      this.isModalOpen = true; // Abre el modal
+    });
   }
 
-  async isAdmin() {
-    if (this.rolUser === 'admin') {
-      this.authService.setAdmin(true);
-      this.router.navigate(['/lab']);
-    }
+  logOut(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  closeModal(): void {
+    this.isModalOpen = false; // Cierra el modal
+    this.qrCodeUrl = ''; // Limpia la URL al cerrar
   }
 
   goClass() {
@@ -93,6 +109,6 @@ export class HomePage implements OnInit {
     source: CameraSource.Camera
     });
     this.image = image.dataUrl;
-    }
+  }
 
 }

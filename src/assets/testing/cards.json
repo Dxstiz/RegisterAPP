@@ -1,14 +1,9 @@
 [
     {
+        "id": "1",
         "icon": "qr-code-outline",
         "title": "Generar QR",
         "description": "Generar QR para la asistencia",
         "route": "/qr"
-    },
-    {
-        "icon": "document-outline",
-        "title": "Gestion Master",
-        "description": "Gestion de Usuarios",
-        "route": "/lab"
     }
 ]

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { PopoverController } from '@ionic/angular'; // Importa PopoverController
 import { PopoverContentComponent  } from 'src/app/components/popover-content/popover-content.component'; // Importa el nuevo componente
-import { AuthService } from '../../common/services/auth.service';
+import { AuthService } from '../../common/servicev2/auth.service';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/data.service';
-import { FirestoreService } from 'src/app/common/services/firestore.service';
+import { FirestoreService } from 'src/app/common/servicev2/firestore.service';
 import { UserI } from 'src/app/common/models/users.models';
 
 @Component({

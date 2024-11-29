@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { authGuard } from './common/guards/isLogin/auth.guard';
-import { addminGuard } from './common/guards/isAdmin/addmin.guard';
+
 
 const routes: Routes = [
   {
@@ -16,7 +15,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule),
-    canActivate: [authGuard]
+    
   
 
   },
@@ -31,7 +30,7 @@ const routes: Routes = [
   {
     path: 'lab',
     loadChildren: () => import('./pages/lab/lab.module').then( m => m.LabPageModule),
-    canActivate: [addminGuard]
+    
   },
   {
     path: 'clas-profe',

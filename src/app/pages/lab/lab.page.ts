@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { UserI } from 'src/app/common/models/users.models';
-import { FirestoreService } from 'src/app/common/services/firestore.service';
+import { FirestoreService } from 'src/app/common/servicev2/firestore.service';
 import { FormsModule } from '@angular/forms';
 import { user } from '@angular/fire/auth';
-import { AuthService } from 'src/app/common/services/auth.service';
+import { AuthService } from 'src/app/common/servicev2/auth.service';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-lab',

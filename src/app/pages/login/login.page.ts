@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { AuthService } from '../../common/services/auth.service';
-import { UserCredential } from '@angular/fire/auth';
-import { DataService } from 'src/app/data.service';
+import { AuthService } from 'src/app/common/service/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +21,6 @@ export class LoginPage implements OnInit {
     private router: Router, 
     private alertController: AlertController,
     private authService: AuthService,
-    private dataService: DataService
   ) { 
     this.userName = '';
     this.passwordUser = '';
@@ -32,23 +29,53 @@ export class LoginPage implements OnInit {
 
   // Función de inicio de sesión
   async login() {
-    this.authService.login(this.email, this.password)
-      .then((userCredential: UserCredential) => {
-        const uid = userCredential.user.uid;  // Obtén el uid del usuario autenticado
-        console.log('UID del usuario autenticado:', uid);  // Muestra el uid en la consola para ver que funciona xD
-        this.dataService.setUid(uid);  // Guarda el uid en el servicio de datos
-        this.router.navigate(['/home']);
-      })
-      .catch(async error => {
+    
+      // Validar campos
+      if (!this.email || !this.password) {
         const alert = await this.alertController.create({
           header: 'Error',
-          message: 'Correo o contraseña incorrectos',
-          buttons: ['OK']
+          message: 'Debes llenar todos los campos',
+          buttons: ['OK'],
         });
         await alert.present();
-      });
-  }
+        return;
+      }
 
+      
+
+      const loginData = { email: this.email, password: this.password };
+      let endpoint = '';
+      let isStudent = false;
+
+      // Verificar si el usuario es un estudiante o un profesor
+      if (this.email.includes('@estudiante.com')) {
+        endpoint = 'students/login';
+        isStudent = true;
+      } else if (this.email.includes('@profesor.com')) {
+        endpoint = 'teachers/login';
+      }
+
+      this.authService.login(endpoint, loginData).subscribe(
+        (response) => {
+    
+          // Guardar datos del usuario en localStorage
+          const user = isStudent ? response.student : response.teacher;
+          user.isStudent = isStudent;
+
+          localStorage.setItem('userData', JSON.stringify(user));
+
+          // Redirigir al usuario
+          this.router.navigate(['/home']);
+        },
+        (error) => {
+          console.error('Error al iniciar sesión:', error);
+        }
+      );
+      
+    }
+  
+  
+  
 
   showPassword() {
     this.isPasswordShow = !this.isPasswordShow;
