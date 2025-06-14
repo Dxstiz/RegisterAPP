@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../common/services/auth.service';
@@ -10,7 +10,7 @@ import { DataService } from 'src/app/data.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage implements OnInit {
+export class LoginPage  {
   // Declaración de variables
   userName: string;
   passwordUser: string;
@@ -54,7 +54,7 @@ export class LoginPage implements OnInit {
     this.isPasswordShow = !this.isPasswordShow;
   }
 
-  ngOnInit() {}
+  
 
   goForgot() {
     this.router.navigate(['/forgot-pass']);
