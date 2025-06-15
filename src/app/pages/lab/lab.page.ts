@@ -1,94 +1,135 @@
+// Ruta: src/app/pages/lab/lab.page.ts
 import { Component, OnInit } from '@angular/core';
-import { UserI } from 'src/app/common/models/users.models';
+import { Observable } from 'rxjs';
+import { AlertController } from '@ionic/angular';
+
 import { FirestoreService } from 'src/app/common/services/firestore.service';
-import { FormsModule } from '@angular/forms';
-import { user } from '@angular/fire/auth';
 import { AuthService } from 'src/app/common/services/auth.service';
-import { Router } from '@angular/router';
+import { UserI } from 'src/app/common/models/users.models';
+
 @Component({
   selector: 'app-lab',
   templateUrl: './lab.page.html',
-  styleUrls: ['./lab.page.scss']
 })
 export class LabPage implements OnInit {
 
-  users: UserI[] = [];
-  password: string;
-  newUser: UserI;
-  cargando: boolean = false;
+  usuarios$: Observable<UserI[]>;
+  isModalOpen = false;
+  editingUser: any = {};
+  
+  // =========== ¡AQUÍ ESTÁ LA CORRECCIÓN! ===========
+  // Quitamos la barra final para evitar el //
+  private path = 'Usuarios'; 
+  // ===============================================
 
   constructor(
     private firestoreService: FirestoreService,
     private authService: AuthService,
-    private router: Router
-  ) { 
-    this.loadusers();
-    this.initUser();
-    this.getUserName('YXtQ2aAlXfgTDq3ESVoCBSsnPwr2');
-  }
-  
+    private alertController: AlertController
+  ) { }
+
   ngOnInit() {
+    this.usuarios$ = this.firestoreService.getCollectionChanges<UserI>(this.path);
   }
 
-  loadusers() {
-    this.firestoreService.getCollectionChanges<UserI>('Usuarios').subscribe(data => {
-      if(data){
-        this.users = data;
+  openUserModal(user: UserI = null) {
+    if (user) {
+      this.editingUser = { ...user };
+    } else {
+      this.editingUser = { id: null, userName: '', correo: '', password: '', rol: 'alumno' };
+    }
+    this.isModalOpen = true;
+  }
+
+  closeUserModal() {
+    this.isModalOpen = false;
+  }
+
+  async saveUser() {
+    // --- LÓGICA DE ACTUALIZACIÓN ---
+    if (this.editingUser.id) {
+      try {
+        const dataToUpdate = { ...this.editingUser };
+        delete dataToUpdate.id;
+        delete dataToUpdate.password;
+
+        await this.firestoreService.updateDocumentID(dataToUpdate, this.path, this.editingUser.id);
+        this.closeUserModal();
+        this.presentAlert('Éxito', 'Usuario actualizado correctamente.');
+
+      } catch (error) {
+        console.error("Error al actualizar usuario:", error);
+        this.presentAlert('Error al actualizar', 'No se pudo actualizar el usuario.');
       }
-    })
-  }
+    } else {
+      // --- LÓGICA DE CREACIÓN ---
+      try {
+        const userData = {
+          userName: this.editingUser.userName,
+          correo: this.editingUser.correo,
+          rol: this.editingUser.rol
+        };
 
-  initUser(){
-    this.newUser = {
-      correo: null,
-      userName: null,
-      rol: null,
-      id: this.firestoreService.createIdDoc(),
+        if (!this.editingUser.password || this.editingUser.password.length < 6) {
+           this.presentAlert('Error', 'La contraseña es obligatoria y debe tener al menos 6 caracteres.');
+           return;
+        }
+
+        await this.authService.register(this.editingUser.correo, this.editingUser.password, userData);
+        this.closeUserModal();
+        this.presentAlert('Éxito', 'Usuario creado correctamente.');
+        
+      } catch (error) {
+        console.error("Error al registrar el usuario:", error);
+        this.presentAlert('Error al crear usuario', this.getErrorMessage(error));
+      }
     }
   }
 
-
-  async update(user: UserI) {
-    this.firestoreService.updateDocument('Usuarios', user.id, this.newUser);
+  async confirmDeleteUser(userId: string) {
+    const alert = await this.alertController.create({
+      header: 'Confirmar',
+      message: '¿Estás seguro de que quieres eliminar a este usuario?',
+      buttons: [
+        { text: 'Cancelar', role: 'cancel' },
+        {
+          text: 'Eliminar',
+          handler: async () => {
+            try {
+              await this.firestoreService.deleteDocumentID(this.path, userId);
+              this.presentAlert('Éxito', 'Usuario eliminado correctamente.');
+            } catch (error) {
+              console.error("Error al eliminar usuario:", error);
+              this.presentAlert('Error al eliminar', 'No se pudo eliminar el usuario.');
+            }
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
-  async save() {
-    this.cargando = true;
+  // Función de ayuda para mostrar alertas
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header,
+      message,
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
-    try {
-      await this.authService.register(this.newUser.correo, this.password, this.newUser); // Llama a la función de registro
-      // Aquí puedes agregar lógica para mostrar un mensaje de éxito o limpiar el formulario.
-    } catch (error) {
-      console.error('Error al registrar el usuario:', error);
-      // Aquí puedes agregar lógica para manejar errores (ej. mostrar alertas)
-    } finally {
-      this.cargando = false;
-      this.initUser(); // Reiniciar el formulario
-      this.password = ''; // Limpiar el campo de contraseña
+  // Función para traducir errores de Firebase
+  getErrorMessage(error: any): string {
+    if (error.code === 'auth/email-already-in-use') {
+      return 'El correo electrónico ya está registrado.';
     }
+    if (error.code === 'auth/invalid-email') {
+      return 'El formato del correo electrónico no es válido.';
+    }
+    if (error.code === 'auth/weak-password') {
+      return 'La contraseña es muy débil. Debe tener al menos 6 caracteres.';
+    }
+    return 'Ocurrió un error inesperado. Por favor, inténtalo de nuevo.';
   }
-
-
-  edit(user: UserI){
-    this.newUser = user;
-  }
-
-  async delete(user: UserI){
-    this.cargando = true;
-    await this.firestoreService.deleteDocumentID('Usuarios', user.id);
-    this.cargando = false;
-  }
-
-  async getUserName(uid: string): Promise<string | null> {
-    const userData = await this.firestoreService.getDocument<UserI>(`Usuarios/${uid}`);
-    console.log('userData', userData?.userName);
-    return userData?.userName || null;
-  }
-
-  goBack(){
-    this.router.navigate(['/home']);
-  }
-
 }
-
-

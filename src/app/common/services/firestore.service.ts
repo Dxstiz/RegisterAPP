@@ -1,10 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { collectionData, Firestore } from '@angular/fire/firestore';
-import { collection, deleteDoc, doc, setDoc, updateDoc, getDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, setDoc, updateDoc, getDoc, addDoc } from 'firebase/firestore';
 import { DocumentReference } from 'firebase/firestore/lite';
 import { Observable } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
-
+import { Asignatura } from '../models/asignatura.model'; 
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +66,20 @@ export class FirestoreService {
     return uuidv4();
   }
 
+  // Métodos específicos para Asignaturas
 
+  //para crear una nueva asignatura:
+  createAsignatura(asignatura: Asignatura) {
+    const asignaturasCollection = collection(this.firestore, 'Asignaturas');
+    return addDoc(asignaturasCollection, asignatura);
+  }
+
+  //para actualizar una asignatura existente:
+  getAsignaturas() {
+    const asignaturasCollection = collection(this.firestore, 'Asignaturas');
+    // collectionData devuelve un Observable que se actualiza en tiempo real.
+    // { idField: 'id' } mapea el ID del documento de Firestore al campo 'id' de nuestra interface.
+    return collectionData(asignaturasCollection, { idField: 'id' }) as any; // Usamos 'any' por ahora para simplificar
+  }
 
 }
